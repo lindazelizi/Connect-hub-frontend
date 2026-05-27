@@ -1,1 +1,115 @@
 @import "tailwindcss";
+
+/*Clickable elements: hand-cursor + hover-feedback*/
+@layer base {
+  button:not(:disabled),
+  a,
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/*Page background*/
+.page-gradient {
+  background: #f3f4f6;
+  min-height: 100vh;
+}
+
+/*White card*/
+.glass-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/*Navigation bars*/
+.glass-nav {
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.glass-bottom-nav {
+  background: white;
+  border-top: 1px solid rgb(243, 244, 246);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/*Light input field*/
+.glass-input {
+  background: rgb(243, 244, 246);
+  color: rgb(55, 65, 81);
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  transition: box-shadow 0.15s;
+}
+
+.glass-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.35);
+}
+
+.glass-input::placeholder {
+  color: rgb(156, 163, 175);
+}
+
+.glass-input option {
+  background: white;
+  color: rgb(55, 65, 81);
+}
+
+/*Chat bubbles*/
+.glass-bubble-mine {
+  background: linear-gradient(to right, #f97316, #ec4899);
+  color: white;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.glass-bubble-other {
+  background: rgb(243, 244, 246);
+  color: rgb(55, 65, 81);
+  border-radius: 1rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+/*Skeleton shimmer*/
+.glass-skeleton {
+  background: rgb(229, 231, 235);
+  border-radius: 0.375rem;
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/*Autofill override*/
+/*Default: light gray for white-card inputs*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(243, 244, 246) inset !important;
+  -webkit-text-fill-color: rgb(55, 65, 81) !important;
+  caret-color: rgb(55, 65, 81);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/*Dark override for glass inputs on glass backgrounds*/
+.glass-input:-webkit-autofill,
+.glass-input:-webkit-autofill:hover,
+.glass-input:-webkit-autofill:focus,
+.glass-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(243, 244, 246) inset !important;
+  -webkit-text-fill-color: rgb(55, 65, 81) !important;
+  caret-color: rgb(55, 65, 81);
+  transition: background-color 9999s ease-in-out 0s;
+}

@@ -1,8 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import { useAuth } from './context/AuthContext'
-import Layout from './components/Layout'
+import { ErrorBoundary } from './components/ui'
+import Navbar from './components/layout/Navbar'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import { ForgotPasswordPage, ResetPasswordPage } from './pages/PasswordResetPage'
 import FeedPage from './pages/FeedPage'
 import ProfilePage from './pages/ProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
@@ -11,105 +14,51 @@ import MessagesPage from './pages/MessagesPage'
 import ConversationPage from './pages/ConversationPage'
 import GroupsPage from './pages/GroupsPage'
 import GroupPage from './pages/GroupPage'
-import PlacesPage from './pages/PlacesPage'
-import PlacePage from './pages/PlacePage'
+import SearchPage from './pages/SearchPage'
+import NewsPage from './pages/NewsPage'
 
-function PrivateRoute({ children }: { children: React.ReactNode }) {
+function PrivateRoute() {
   const { user, loading } = useAuth()
-
-  if (loading) return <div className="p-4">Laddar...</div>
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-gray-200 animate-spin" style={{ borderTopColor: '#f97316' }} />
+    </div>
+  )
   if (!user) return <Navigate to="/login" />
-
-  return <Layout>{children}</Layout>
+  return (
+    <div className="page-gradient">
+      <Navbar />
+      <main className="max-w-2xl mx-auto py-6 px-4">
+        <Outlet />
+      </main>
+    </div>
+  )
 }
 
 export default function App() {
   return (
+    <ErrorBoundary>
+    <Toaster position="top-right" richColors />
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <FeedPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile/:id"
-          element={
-            <PrivateRoute>
-              <ProfilePage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile/edit"
-          element={
-            <PrivateRoute>
-              <EditProfilePage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/notifications"
-          element={
-            <PrivateRoute>
-              <NotificationsPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/messages"
-          element={
-            <PrivateRoute>
-              <MessagesPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/messages/:userId"
-          element={
-            <PrivateRoute>
-              <ConversationPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/groups"
-          element={
-            <PrivateRoute>
-              <GroupsPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/groups/:id"
-          element={
-            <PrivateRoute>
-              <GroupPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/places"
-          element={
-            <PrivateRoute>
-              <PlacesPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/places/:id"
-          element={
-            <PrivateRoute>
-              <PlacePage />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<FeedPage />} />
+          <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/messages/:userId" element={<ConversationPage />} />
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/groups/:id" element={<GroupPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/news" element={<NewsPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
+    </ErrorBoundary>
   )
 }

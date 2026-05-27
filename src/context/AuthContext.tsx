@@ -1,26 +1,19 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { api } from '../api/client'
+import type { Profile } from '../api/client'
 
 type User = {
   id: string
   email: string
 }
 
-type Profile = {
-  id: string
-  full_name: string
-  avatar_url: string | null
-  company: string | null
-  role: string
-}
-
 type AuthContextType = {
   user: User | null
   profile: Profile | null
   loading: boolean
-  login: (email: string, password: string) => Promise<void>
-  register: (email: string, password: string, full_name: string) => Promise<void>
-  logout: () => void
+  login: (_email: string, _password: string) => Promise<void>
+  register: (_email: string, _password: string, _full_name: string, _company: string) => Promise<void>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -31,49 +24,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      setLoading(false)
-      return
-    }
-
-    api.get('/auth/me')
+    api.get<{ user: User; profile: Profile }>('/auth/me')
       .then((data) => {
         setUser(data.user)
         setProfile(data.profile)
       })
-      .catch(() => {
-        localStorage.removeItem('token')
-      })
+      .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 
+  useEffect(() => {
+    function handleAuthExpired() {
+      setUser(null)
+      setProfile(null)
+    }
+    window.addEventListener('auth:expired', handleAuthExpired)
+    return () => window.removeEventListener('auth:expired', handleAuthExpired)
+  }, [])
+
   async function login(email: string, password: string) {
-    const data = await api.post('/auth/login', { email, password })
-    localStorage.setItem('token', data.session.access_token)
+    const data = await api.post<{ user: User; profile: Profile }>('/auth/login', { email, password })
     setUser(data.user)
-    setProfile(null)
-
-    const me = await api.get('/auth/me')
-    setProfile(me.profile)
+    setProfile(data.profile)
   }
 
-  async function register(email: string, password: string, full_name: string) {
-    const data = await api.post('/auth/register', { email, password, full_name })
-    localStorage.setItem('token', data.session.access_token)
+  async function register(email: string, password: string, full_name: string, company: string) {
+    const data = await api.post<{ user: User; profile: Profile }>('/auth/register', { email, password, full_name, company })
     setUser(data.user)
-
-    const me = await api.get('/auth/me')
-    setProfile(me.profile)
+    setProfile(data.profile)
   }
 
-  function logout() {
-    api.post('/auth/logout', {})
-    localStorage.removeItem('token')
-    setUser(null)
-    setProfile(null)
+  async function logout() {
+    try {
+      await api.post('/auth/logout', {})
+    } catch {
+    } finally {
+      setUser(null)
+      setProfile(null)
+    }
   }
-
   return (
     <AuthContext.Provider value={{ user, profile, loading, login, register, logout }}>
       {children}

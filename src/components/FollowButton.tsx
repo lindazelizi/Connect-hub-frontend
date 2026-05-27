@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { api } from '../api/client'
 
-type Props = {
-  userId: string
-}
-
-export default function FollowButton({ userId }: Props) {
+export default function FollowButton({ userId }: { userId: string }) {
   const [following, setFollowing] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -28,7 +25,7 @@ export default function FollowButton({ userId }: Props) {
         setFollowing(true)
       }
     } catch {
-      //
+      toast.error('Could not update follow status')
     } finally {
       setLoading(false)
     }
@@ -38,13 +35,11 @@ export default function FollowButton({ userId }: Props) {
     <button
       onClick={toggle}
       disabled={loading}
-      className={`text-sm px-4 py-1.5 rounded-lg font-medium transition-colors disabled:opacity-50 ${
+      className={`text-sm px-4 py-1.5 rounded-lg font-medium transition-all disabled:opacity-50 ${
         following
           ? 'border border-gray-300 text-gray-600 hover:border-red-300 hover:text-red-500'
-          : 'bg-blue-600 text-white hover:bg-blue-700'
+          : 'text-white hover:opacity-80'
       }`}
-    >
-      {loading ? '...' : following ? 'Följer' : 'Följ'}
-    </button>
+      style={following ? {} : { background: 'linear-gradient(to right, #f97316, #ec4899)' }}>{loading ? '...' : following ? 'Following' : 'Follow'}</button>
   )
 }

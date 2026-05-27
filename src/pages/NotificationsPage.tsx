@@ -1,79 +1,60 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
-
-type Notification = {
-  id: string
-  type: string
-  read: boolean
-  created_at: string
-  actor: {
-    id: string
-    full_name: string
-    avatar_url: string | null
-  } | null
-}
+import type { Notification } from '../api/client'
+import { Avatar, ListItemSkeleton } from '../components/ui'
 
 function notificationText(type: string): string {
   switch (type) {
-    case 'follow': return 'började följa dig'
-    case 'like_post': return 'gillade ditt inlägg'
-    case 'like_comment': return 'gillade din kommentar'
-    case 'comment': return 'kommenterade ditt inlägg'
-    default: return 'interagerade med dig'
+    case 'follow': return 'started following you'
+    case 'like_post': return 'liked your post'
+    case 'like_comment': return 'liked your comment'
+    case 'comment': return 'commented on your post'
+    case 'message': return 'sent you a message'
+    default: return 'interacted with you'
   }
 }
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     api.get('/notifications')
-      .then((data) => setNotifications(data.notifications ?? data))
+      .then((data: any) => setNotifications(data.notifications ?? data))
       .catch(() => {})
       .finally(() => setLoading(false))
-
-    api.patch('/notifications/read-all', {}).catch(() => {})
   }, [])
 
-  if (loading) return <p className="text-gray-500">Laddar notifikationer...</p>
+  function handleClick(n: Notification) {
+    if (!n.read) {
+      api.patch(`/notifications/${n.id}/read`, {}).catch(() => {})
+      setNotifications(prev => prev.map(x => x.id === n.id ? { ...x, read: true } : x))
+    }
+    if (n.type === 'message') navigate('/messages')
+  }
+
+  if (loading) return <div className="space-y-2">{Array.from({ length: 4 }).map((_, i) => <ListItemSkeleton key={i} />)}</div>
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y divide-gray-100">
-      <h1 className="text-lg font-bold text-gray-900 px-4 py-3">Notifikationer</h1>
-
-      {notifications.length === 0 && (
-        <p className="text-gray-500 text-center py-10 px-4">Inga notifikationer ännu.</p>
-      )}
-
+    <div className="glass-card overflow-hidden">
+      <h1 className="text-lg font-bold text-gray-900 px-4 py-3 border-b border-gray-100">Notifications</h1>
+      {notifications.length === 0 && <p className="text-gray-500 text-center py-10 px-4">No notifications yet.</p>}
       {notifications.map((n) => (
-        <div key={n.id} className={`flex items-center gap-3 px-4 py-3 ${!n.read ? 'bg-blue-50' : ''}`}>
-          <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-semibold flex-shrink-0 overflow-hidden">
-            {n.actor?.avatar_url ? (
-              <img src={n.actor.avatar_url} alt={n.actor.full_name} className="w-full h-full object-cover" />
-            ) : (
-              n.actor?.full_name.charAt(0).toUpperCase() ?? '?'
-            )}
-          </div>
-
+        <div key={n.id} onClick={() => handleClick(n)} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0 cursor-pointer hover:bg-gray-50">
+          {n.actor ? <Avatar user={n.actor} size="md" /> : <div className="w-10 h-10 rounded-full bg-gray-100 flex-shrink-0" />}
           <div className="flex-1 min-w-0">
             {n.actor ? (
               <p className="text-sm text-gray-800">
-                <Link to={`/profile/${n.actor.id}`} className="font-semibold hover:underline">
-                  {n.actor.full_name}
-                </Link>{' '}
-                {notificationText(n.type)}
+                <Link to={`/profile/${n.actor.id}`} className="font-semibold hover:underline" onClick={e => e.stopPropagation()}>{n.actor.full_name}</Link>{' '}{notificationText(n.type)}
               </p>
             ) : (
               <p className="text-sm text-gray-800">{notificationText(n.type)}</p>
             )}
-            <p className="text-xs text-gray-400 mt-0.5">
-              {new Date(n.created_at).toLocaleDateString('sv-SE')}
-            </p>
+            <p className="text-xs text-gray-400 mt-0.5">{new Date(n.created_at).toLocaleDateString('en-GB')}</p>
           </div>
-
-          {!n.read && <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />}
+          {!n.read && <span className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0" />}
         </div>
       ))}
     </div>

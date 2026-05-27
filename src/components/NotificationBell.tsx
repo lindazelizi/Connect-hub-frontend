@@ -1,34 +1,37 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
+import { BellIcon } from '@heroicons/react/24/outline'
 import { api } from '../api/client'
+import { useAuth } from '../context/AuthContext'
 
 export default function NotificationBell() {
+  const { user } = useAuth()
   const [count, setCount] = useState(0)
+  const location = useLocation()
 
   useEffect(() => {
     api.get('/notifications/unread-count')
-      .then((data) => setCount(data.count ?? 0))
+      .then((data: any) => setCount(data.count ?? 0))
       .catch(() => {})
+  }, [location.pathname])
 
+  useEffect(() => {
+    if (!user) return
     const interval = setInterval(() => {
       api.get('/notifications/unread-count')
-        .then((data) => setCount(data.count ?? 0))
+        .then((data: any) => setCount(data.count ?? 0))
         .catch(() => {})
-    }, 30000)
-
+    }, 15000)
     return () => clearInterval(interval)
-  }, [])
+  }, [user])
 
   return (
-    <Link to="/notifications" className="relative text-gray-500 hover:text-blue-600 transition-colors">
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-      </svg>
+    <NavLink to="/notifications" className={({ isActive }) => `relative transition-colors ${isActive ? 'text-pink-500' : 'text-gray-400 hover:text-gray-700'}`}>
+      <BellIcon className="w-5 h-5" strokeWidth={2} />
       {count > 0 && (
         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center leading-none">
-          {count > 9 ? '9+' : count}
-        </span>
+          {count > 9 ? '9+' : count}</span>
       )}
-    </Link>
+    </NavLink>
   )
 }
