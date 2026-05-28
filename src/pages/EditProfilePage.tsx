@@ -76,7 +76,7 @@ export default function EditProfilePage() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <div className="flex gap-3 pt-2">
-          <button type="submit" disabled={loading || uploading} className="text-white text-sm px-5 py-2 rounded-lg disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: 'linear-gradient(to right, #f97316, #ec4899)' }}>
+          <button type="submit" disabled={loading || uploading} className="text-white text-sm px-5 py-2 rounded-lg disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: '#be185d' }}>
             {loading ? 'Saving...' : 'Save'}
           </button>
           <button type="button" onClick={() => navigate(-1)} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-2">Cancel</button>

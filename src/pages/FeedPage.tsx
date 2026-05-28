@@ -16,7 +16,7 @@ function NewsCard({ item, onOpen }: { item: NewsPost; onOpen: () => void }) {
       {item.image_url && <img src={item.image_url} alt="" className="w-full object-cover max-h-52" />}
       <div className="p-5">
         <div className="flex items-center gap-2 mb-2 flex-wrap">
-          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600">Company News</span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-pink-50 text-pink-700">Company News</span>
           {item.category && (
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[item.category] ?? 'bg-gray-100 text-gray-600'}`}>{item.category}</span>
           )}

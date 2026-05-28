@@ -40,6 +40,6 @@ export default function FollowButton({ userId }: { userId: string }) {
           ? 'border border-gray-300 text-gray-600 hover:border-red-300 hover:text-red-500'
           : 'text-white hover:opacity-80'
       }`}
-      style={following ? {} : { background: 'linear-gradient(to right, #f97316, #ec4899)' }}>{loading ? '...' : following ? 'Following' : 'Follow'}</button>
+      style={following ? {} : { background: '#be185d' }}>{loading ? '...' : following ? 'Following' : 'Follow'}</button>
   )
 }

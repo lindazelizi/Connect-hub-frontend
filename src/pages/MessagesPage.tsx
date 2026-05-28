@@ -73,7 +73,7 @@ export default function MessagesPage() {
               {c.lastMessage && <p className="text-xs text-gray-500 truncate">{c.lastMessage}</p>}
             </div>
             {c.lastAt && <span className="text-xs text-gray-400 flex-shrink-0">{new Date(c.lastAt).toLocaleDateString('en-GB')}</span>}
-            {c.hasUnread && <span className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0" />}
+            {c.hasUnread && <span className="w-2 h-2 rounded-full bg-pink-700 flex-shrink-0" />}
           </Link>
         ))}
       </div>

@@ -43,8 +43,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="glass-nav px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold" style={{ background: 'linear-gradient(to right, #f97316, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>ConnectHub</Link>
+      <nav className="glass-nav px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <Link to="/" className="text-xl font-bold tracking-tight" style={{ color: '#be185d' }}>ConnectHub</Link>
 
         <div className="hidden sm:flex items-center gap-4">
           {NAV_ITEMS.map((item) => (
@@ -53,7 +53,7 @@ export default function Navbar() {
               to={item.to}
               end={item.to === '/'}
               className={({ isActive }) =>
-                `relative transition-colors ${isActive ? 'text-pink-500' : 'text-gray-400 hover:text-gray-700'}`
+                `relative transition-colors ${isActive ? 'text-pink-800' : 'text-gray-400 hover:text-gray-900'}`
               }
               title={item.label}
             >
@@ -67,11 +67,11 @@ export default function Navbar() {
           ))}
           <NotificationBell />
           {user && (
-            <Link to={`/profile/${user.id}`} className="text-sm text-gray-700 hover:text-pink-500 transition-colors font-medium">
+            <Link to={`/profile/${user.id}`} className="text-sm text-gray-700 hover:text-pink-800 transition-colors font-medium">
               {profile?.full_name}
             </Link>
           )}
-          <button onClick={handleLogout} className="text-sm text-gray-400 hover:text-red-500 transition-colors">Log out</button>
+          <button onClick={handleLogout} className="text-sm text-gray-400 hover:text-red-600 transition-colors">Log out</button>
         </div>
 
         <div className="flex sm:hidden items-center gap-3">
@@ -92,7 +92,7 @@ export default function Navbar() {
             end={item.to === '/'}
             className={({ isActive }) =>
               `flex-1 flex flex-col items-center justify-center py-2 text-xs gap-0.5 transition-colors ${
-                isActive ? 'text-pink-500' : 'text-gray-400'
+                isActive ? 'text-pink-800' : 'text-gray-400'
               }`
             }
           >

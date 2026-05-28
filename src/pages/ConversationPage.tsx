@@ -84,7 +84,7 @@ export default function ConversationPage() {
 
       <form onSubmit={handleSend} className="flex gap-2 px-4 py-3 border-t border-gray-100">
         <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Write a message..." className="glass-input rounded-full flex-1" style={{ width: 'auto' }} />
-        <button type="submit" disabled={sending || !text.trim()} className="text-white px-4 py-2 rounded-full text-sm disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: 'linear-gradient(to right, #f97316, #ec4899)' }}>Send</button>
+        <button type="submit" disabled={sending || !text.trim()} className="text-white px-4 py-2 rounded-full text-sm disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: '#be185d' }}>Send</button>
       </form>
     </div>
   )

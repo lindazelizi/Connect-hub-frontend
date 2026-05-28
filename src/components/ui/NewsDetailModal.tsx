@@ -119,7 +119,7 @@ export default function NewsDetailModal({ item, onClose, onReact, autoFocusComme
           )}
           {showFeedLink && (
             <div className="pt-1">
-              <Link to="/news" onClick={onClose} className="text-sm font-medium text-pink-500 hover:text-pink-600 transition-colors">Read more news</Link>
+              <Link to="/news" onClick={onClose} className="text-sm font-medium text-pink-700 hover:text-pink-600 transition-colors">Read more news</Link>
             </div>
           )}
 
@@ -127,7 +127,7 @@ export default function NewsDetailModal({ item, onClose, onReact, autoFocusComme
             <button
               onClick={() => handleReact('like')}
               disabled={reacting}
-              className={`flex items-center gap-1 text-sm transition-colors disabled:opacity-50 ${item.user_reaction === 'like' ? 'text-pink-500' : 'text-gray-400 hover:text-pink-500'}`}
+              className={`flex items-center gap-1 text-sm transition-colors disabled:opacity-50 ${item.user_reaction === 'like' ? 'text-pink-700' : 'text-gray-400 hover:text-pink-700'}`}
             >
               {item.user_reaction === 'like' ? <HandThumbUpSolid className="w-4 h-4" /> : <HandThumbUpOutline className="w-4 h-4" />}
               {item.likes_count > 0 && <span>{item.likes_count}</span>}

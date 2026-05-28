@@ -21,7 +21,7 @@ function PrivateRoute() {
   const { user, loading } = useAuth()
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 rounded-full border-2 border-gray-200 animate-spin" style={{ borderTopColor: '#f97316' }} />
+      <div className="w-8 h-8 rounded-full border-2 border-gray-200 animate-spin" style={{ borderTopColor: '#be185d' }} />
     </div>
   )
   if (!user) return <Navigate to="/login" />

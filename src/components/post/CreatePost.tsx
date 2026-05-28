@@ -76,12 +76,12 @@ export default function CreatePost({ onCreated }: { onCreated: (_post: Post) => 
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
       <div className="flex items-center justify-between mt-2">
-        <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-pink-500 disabled:opacity-50 transition-colors">
+        <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-pink-700 disabled:opacity-50 transition-colors">
           <PhotoIcon className="w-4 h-4" />
           {uploading ? 'Uploading..' : 'Add image'}
         </button>
         <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-        <button type="submit" disabled={loading || uploading || !content.trim()} className="text-white text-sm px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-80 transition-opacity" style={{ background: 'linear-gradient(to right, #f97316, #ec4899)' }}>
+        <button type="submit" disabled={loading || uploading || !content.trim()} className="text-white text-sm px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-80 transition-opacity" style={{ background: '#be185d' }}>
           {loading ? 'Publishing..' : 'Publish'}
         </button>
       </div>

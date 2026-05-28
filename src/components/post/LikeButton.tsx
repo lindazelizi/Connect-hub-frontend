@@ -35,7 +35,7 @@ export default function LikeButton({ postId, initialCount = 0 }: { postId: strin
   }
 
   return (
-    <button onClick={toggle} disabled={loading} className={`flex items-center gap-1 text-sm transition-colors ${liked ? 'text-pink-500' : 'text-gray-400 hover:text-pink-500'}`}>
+    <button onClick={toggle} disabled={loading} className={`flex items-center gap-1 text-sm transition-colors ${liked ? 'text-pink-700' : 'text-gray-400 hover:text-pink-700'}`}>
       {liked ? <HandThumbUpSolid className="w-4 h-4" /> : <HandThumbUpOutline className="w-4 h-4" />}
       {count > 0 && <span>{count}</span>}
     </button>

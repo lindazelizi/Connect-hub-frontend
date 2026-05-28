@@ -93,7 +93,7 @@ export default function Comments({ postId }: { postId: string }) {
         <button
           onClick={loadMore}
           disabled={loadingMore}
-          className="text-xs text-gray-400 hover:text-pink-500 transition-colors disabled:opacity-50"
+          className="text-xs text-gray-400 hover:text-pink-700 transition-colors disabled:opacity-50"
         >
           {loadingMore ? 'Loading..' : 'Load more comments'}
         </button>
@@ -101,7 +101,7 @@ export default function Comments({ postId }: { postId: string }) {
 
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a comment.." className="glass-input flex-1 rounded-full" style={{ width: 'auto' }} />
-        <button type="submit" disabled={submitting || !text.trim()} className="text-white text-sm px-3 py-1.5 rounded-full disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: 'linear-gradient(to right, #f97316, #ec4899)' }}>Send</button>
+        <button type="submit" disabled={submitting || !text.trim()} className="text-white text-sm px-3 py-1.5 rounded-full disabled:opacity-50 hover:opacity-80 transition-opacity" style={{ background: '#be185d' }}>Send</button>
       </form>
     </div>
   )

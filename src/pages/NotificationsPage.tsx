@@ -54,7 +54,7 @@ export default function NotificationsPage() {
             )}
             <p className="text-xs text-gray-400 mt-0.5">{new Date(n.created_at).toLocaleDateString('en-GB')}</p>
           </div>
-          {!n.read && <span className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0" />}
+          {!n.read && <span className="w-2 h-2 rounded-full bg-pink-700 flex-shrink-0" />}
         </div>
       ))}
     </div>

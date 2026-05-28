@@ -76,7 +76,7 @@ export default function PostCard({ post, currentUserId, showAuthor = true, onDel
           <LikeButton postId={post.id} initialCount={post.likes_count ?? 0} />
           <button
             onClick={() => setCommentsOpen(o => !o)}
-            className="flex items-center gap-1 text-sm text-gray-400 hover:text-pink-500 transition-colors"
+            className="flex items-center gap-1 text-sm text-gray-400 hover:text-pink-700 transition-colors"
           >
             <ChatBubbleOvalLeftEllipsisIcon className="w-4 h-4" />Comments</button>
         </div>

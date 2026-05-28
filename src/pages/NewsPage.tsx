@@ -281,7 +281,7 @@ export default function NewsPage() {
                   <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => reactToNews(item.id, 'like', item.user_reaction)}
-                      className={`flex items-center gap-1 text-sm transition-colors ${item.user_reaction === 'like' ? 'text-pink-500' : 'text-gray-400 hover:text-pink-500'}`}>
+                      className={`flex items-center gap-1 text-sm transition-colors ${item.user_reaction === 'like' ? 'text-pink-700' : 'text-gray-400 hover:text-pink-700'}`}>
                       {item.user_reaction === 'like' ? <HandThumbUpSolid className="w-4 h-4" /> : <HandThumbUpOutline className="w-4 h-4" />}
                       {item.likes_count > 0 && <span>{item.likes_count}</span>}
                     </button>
@@ -294,7 +294,7 @@ export default function NewsPage() {
                     </button>
                     <button
                       onClick={() => { setSelectedItemId(item.id); setOpenWithComments(true) }}
-                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-pink-500 transition-colors">
+                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-pink-700 transition-colors">
                       <ChatBubbleOvalLeftEllipsisIcon className="w-4 h-4" />
                       {item.comments_count > 0 && item.comments_count}
                     </button>

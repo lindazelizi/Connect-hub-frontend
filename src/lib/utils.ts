@@ -1,7 +1,7 @@
 export const PAGE_SIZE = 20
 
-export const gradientBtn = { background: 'linear-gradient(to right, #f97316, #ec4899)' }
-export const gradientBtnWide = { background: 'linear-gradient(to right, #f97316, #ec4899, #a855f7)' }
+export const gradientBtn = { background: '#be185d' }
+export const gradientBtnWide = { background: '#be185d' }
 
 export const fmtDateLong = (dt: string) =>
   new Date(dt).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })

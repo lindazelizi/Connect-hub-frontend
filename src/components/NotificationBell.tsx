@@ -26,7 +26,7 @@ export default function NotificationBell() {
   }, [user])
 
   return (
-    <NavLink to="/notifications" className={({ isActive }) => `relative transition-colors ${isActive ? 'text-pink-500' : 'text-gray-400 hover:text-gray-700'}`}>
+    <NavLink to="/notifications" className={({ isActive }) => `relative transition-colors ${isActive ? 'text-pink-700' : 'text-gray-400 hover:text-gray-900'}`}>
       <BellIcon className="w-5 h-5" strokeWidth={2} />
       {count > 0 && (
         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center leading-none">
