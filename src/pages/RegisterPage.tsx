@@ -21,16 +21,27 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [registered, setRegistered] = useState(false)
 
+  function friendlyError(msg: string): string {
+    const m = msg.toLowerCase()
+    if (m.includes('already') || m.includes('exists') || m.includes('duplicate') || m.includes('unique')) return 'An account with this email already exists. Try logging in instead.'
+    if (m.includes('invalid') && m.includes('email')) return 'Please enter a valid email address.'
+    if (m.includes('invalid') && m.includes('format')) return 'Please enter a valid email address.'
+    if (m.includes('password') && m.includes('short')) return 'Password is too short.'
+    return 'Something went wrong. Please try again.'
+  }
+
   async function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault()
-    if (!company) { setError('Please select your company'); return }
+    if (!company) { setError('Please select your company.'); return }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) { setError('Please enter a valid email address.'); return }
     setError('')
     setLoading(true)
     try {
       await register(email, password, fullName, company)
       setRegistered(true)
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Registration failed')
+      setError(err instanceof Error ? friendlyError(err.message) : 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -55,20 +66,20 @@ export default function RegisterPage() {
               <Link to="/login" className="block w-full py-3 rounded-xl text-white font-semibold text-sm text-center mt-2 hover:opacity-90 transition-opacity" style={gradientBtnWide}>Go to log in</Link>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} autoComplete="off" className="space-y-3">
               <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
                 <UserCircleIcon className="w-4 h-4 text-gray-400 shrink-0" />
-                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required autoComplete="name" placeholder="Full name" className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
+                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required autoComplete="off" placeholder="Full name" className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
               </div>
 
               <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
                 <EnvelopeIcon className="w-4 h-4 text-gray-400 shrink-0" />
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" placeholder="Email" className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
+                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="off" placeholder="Email" className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
               </div>
 
               <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
                 <LockClosedIcon className="w-4 h-4 text-gray-400 shrink-0" />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" placeholder="Password" className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
+                <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="off" placeholder="Password" style={{ WebkitTextSecurity: 'disc' } as React.CSSProperties} className="bg-transparent flex-1 text-sm text-gray-700 placeholder-gray-400 focus:outline-none" />
               </div>
 
               <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
